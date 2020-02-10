@@ -1,0 +1,26 @@
+mat-form-field {
+  padding-top: 10px;
+}
+
+.guide-card {
+  padding: 15px;
+}
+
+.input-width {
+  width: 100%;
+}
+
+.option-width {
+  width: 40%;
+}
+
+.invisible {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+td {
+  padding-right: 8px;
+}

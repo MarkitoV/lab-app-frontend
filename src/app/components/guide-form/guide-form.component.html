@@ -1,1 +1,142 @@
-<p>guide-form works!</p>
+<section class="guide-card" fxLayout fxLayoutAlign="center">
+  <mat-card fxFlex.xs="100%" fxFlex="600px" class="mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>
+          Añadir Guía
+        </h3>
+      </mat-card-title>
+    </mat-card-header>
+    <form (submit)="uploadGuide(title, description, subjectCode, subjectName, numberLab, semester, docent, publishDate, deliveryDate, workingTime, bodyPath, codePath)">
+      <mat-card-content>
+        <!-- title -->
+        <mat-form-field class="input-width">
+          <input matInput type="text" placeholder="Nombre de la Guía" [formControl]="requiredFormControl"
+            [errorStateMatcher]="matcher" required #title>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-error *ngIf="requiredFormControl.hasError('required')">
+            El nombre de la guía es <strong>Requerido</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- description -->
+        <mat-form-field class="input-width">
+          <textarea matInput rows="2" placeholder="Descripción de la Guía" #description></textarea>
+        </mat-form-field>
+
+        <!-- subjectCode -->
+        <mat-form-field class="input-width">
+          <mat-label>Materia</mat-label>
+          <mat-select [formControl]="subjectControl" [(value)]="selected" required #subjectCode>
+            <mat-option>-- None --</mat-option>
+            <mat-optgroup *ngFor="let group of subjectGroups" [label]="group.name">
+              <mat-option *ngFor="let subject of group.subject" [value]="subject.name">
+                {{ subject.viewValue }}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-error *ngIf="requiredFormControl.hasError('required')">
+            La materia es <strong>Requerida</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- subjectName -->
+        <mat-form-field class="input-width">
+          <input matInput type="text" placeholder="Nombre de la Materia" value="{{ selected }}" readonly #subjectName>
+          <mat-hint>No editable</mat-hint>
+        </mat-form-field>
+
+        <!-- numberLab -->
+        <mat-form-field class="input-width">
+          <input matInput type="number" placeholder="Número de la Guía" [formControl]="requiredFormControl"
+            [errorStateMatcher]="matcher" required #numberLab>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-error *ngIf="requiredFormControl.hasError('required')">
+            El número de guía es <strong>Requerido</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- semester -->
+        <mat-form-field class="input-width">
+          <mat-label>Semestre</mat-label>
+          <mat-select [formControl]="requiredFormControl" [errorStateMatcher]="matcher" required #semester>
+            <mat-option>-- None --</mat-option>
+            <mat-option value="I/2020">I/2020</mat-option>
+            <mat-option value="II/2020">II/2020</mat-option>
+            <mat-option value="I/2021">I/2021</mat-option>
+            <mat-option value="II/2021">II/2021</mat-option>
+            <mat-option value="I/2022">I/2022</mat-option>
+            <mat-option value="II/2022">II/2022</mat-option>
+            <mat-option value="I/2023">I/2023</mat-option>
+            <mat-option value="II/2023">II/2023</mat-option>
+            <mat-option value="I/2024">I/2024</mat-option>
+            <mat-option value="II/2024">II/2024</mat-option>
+          </mat-select>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-error *ngIf="requiredFormControl.hasError('required')">
+            El semestre es <strong>Requerido</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- docent -->
+        <mat-form-field class="input-width">
+          <input matInput type="text" placeholder="Docente" [formControl]="requiredFormControl"
+            [errorStateMatcher]="matcher" required #docent>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-error *ngIf="requiredFormControl.hasError('required')">
+            El nombre del docente es <strong>Requerido</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- publishDate -->
+        <mat-form-field class="input-width" color="accent">
+          <input matInput [min]="minDate" [matDatepicker]="publishPicker" placeholder="Fecha de Publicación"
+            [value]="date.value" readonly required #publishDate>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-datepicker-toggle matSuffix matTooltip="Escojer Fecha" [for]="publishPicker">
+          </mat-datepicker-toggle>
+          <mat-datepicker #publishPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- deliveryDate -->
+        <mat-form-field class="input-width" color="accent">
+          <input matInput [min]="minDate" [matDatepicker]="deliveryPicker" placeholder="Fecha de Entrega"
+            [value]="date.value" readonly required #deliveryDate>
+          <mat-hint>Campo Requerido</mat-hint>
+          <mat-datepicker-toggle matSuffix matTooltip="Escojer Fecha" [for]="deliveryPicker">
+          </mat-datepicker-toggle>
+          <mat-datepicker #deliveryPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- workingTime -->
+        <mat-form-field class="input-width">
+          <input matInput type="number" placeholder="Tiempo de Trabajo" #workingTime>
+          <span matSuffix>&nbsp; [en minutos]</span>
+          <mat-hint>Vacio: Sin límite</mat-hint>
+        </mat-form-field>
+
+        <!-- bodyPath -->
+        <mat-form-field class="input-width">
+          <input matInput type="text" placeholder="Cuerpo de la Guía" value="Acá Viene el Cuerpo de la Guía" #bodyPath>
+          <mat-hint>Campo Opcional</mat-hint>
+        </mat-form-field>
+
+        <!-- codePath -->
+        <mat-form-field class="input-width">
+          <input matInput type="text" placeholder="Código Adjunto" value="Acá viene el Código Adjunto de la Guía" #codePath>
+          <mat-hint>Campo Opcional</mat-hint>
+        </mat-form-field>
+
+        <!-- imagePath -->
+        <input type="file" class="invisible" (change)="onGuideSelected($event)" #imagePath>
+        <img mat-card-image [src]="guideSelected || 'assets/no-image.png'" alt="No image" (click)="imagePath.click()">
+      </mat-card-content>
+
+      <!-- submit button -->
+      <mat-card-actions>
+        <button mat-raised-button matTooltip="Presione Para Guardar" color="primary" class="input-width">Guardar</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</section>

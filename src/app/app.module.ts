@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +35,8 @@ import { GuidePreviewComponent } from './components/guide-preview/guide-preview.
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  // for change the format of the Datepicker to DD/MM/YYYY
+  providers: [ { provide: LOCALE_ID, useValue: 'es-BO' } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
